@@ -8,12 +8,6 @@ const refs ={
 
 };
 
-
-
-
-
-
-
 refs.form.addEventListener('input', inFormInput)
 refs.form.addEventListener('submit', onSubmitBtn);
 
@@ -21,6 +15,7 @@ let currentData = {};
 let savedData = {};
 const STORAGE_KEY = "feedback-form-state";
 populateData ();
+
 
 function inFormInput(event){
    
@@ -41,7 +36,7 @@ function populateData(){
 }
 
 function onSubmitBtn(event){    
-    console.log(savedData);
+    
     event.currentTarget.reset();    
     localStorage.removeItem(STORAGE_KEY);
     
