@@ -37,7 +37,7 @@ function populateData() {
 
 function onSubmitForm(event) {
   event.preventDefault();
-  console.log(currentData);
+  console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)));
   event.target.reset();
   localStorage.removeItem(STORAGE_KEY);
 }
