@@ -30,13 +30,9 @@ function populateData() {
   }
 
   if (savedData) {
-    refs.input.value = savedData.email;
-    refs.textarea.value = savedData.message;
-  } else{
-    refs.input.value = "";
-    refs.textarea.value = "";
-  }
-
+    refs.input.value = savedData.email ||'';
+    refs.textarea.value = savedData.message || '';
+  } 
 }
 
 function onSubmitForm(event) {
