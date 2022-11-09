@@ -1,43 +1,38 @@
 import throttle from 'lodash.throttle';
+let currentData = {};
+
+const STORAGE_KEY = 'feedback-form-state';
 
 const refs = {
   form: document.querySelector('.feedback-form'),
-  btn: document.querySelector('button'),
   input: document.querySelector('input'),
   textarea: document.querySelector('textarea'),
 };
+populateData();
 
 refs.form.addEventListener('input', throttle(inFormInput, 500));
 refs.form.addEventListener('submit', onSubmitForm);
 
-let currentData = {};
-let savedData = {};
-const STORAGE_KEY = 'feedback-form-state';
-populateData();
 
-function inFormInput(event) {
-  event.preventDefault();
+
+function inFormInput(event) {  
+currentData =  JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
   currentData[event.target.name] = event.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
 }
-
-function populateData() {
-  try {
-    savedData = JSON.parse(localStorage.getItem(STORAGE_KEY));
-  } catch (error) {
-    console.log(error.name); // "SyntaxError"
-    console.log(error.message); // Unexpected token W in JSON at position 0
+function onSubmitForm(event) {
+    event.preventDefault();        
+    event.target.reset();
+    localStorage.removeItem(STORAGE_KEY);
   }
 
-  if (savedData) {
-    refs.input.value = savedData.email ||'';
-    refs.textarea.value = savedData.message || '';
-  } 
-}
-
-function onSubmitForm(event) {
-  event.preventDefault();
-  console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)));
-  event.target.reset();
-  localStorage.removeItem(STORAGE_KEY);
+function populateData() {   
+//   let savedData = {email:"", message:""};
+  const savedData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!savedData) {
+        return;
+    }
+        refs.input.value = savedData.email || "";
+        refs.textarea.value = savedData.message || "";
+    
 }
